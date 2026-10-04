@@ -32,6 +32,15 @@ export const GET = route(async (req, ctx) => {
   } catch {
     tz = "UTC";
   }
+  // Day boundaries and medicine times follow the PATIENT's clock when we know it.
+  if (patient.timezone) {
+    try {
+      new Intl.DateTimeFormat("en", { timeZone: patient.timezone });
+      tz = patient.timezone;
+    } catch {
+      /* keep the viewer's zone */
+    }
+  }
   const fromParam = url.searchParams.get("from");
   const from = range === "all" ? undefined : isIso(fromParam) ? fromParam : undefined;
 
@@ -90,6 +99,8 @@ export const GET = route(async (req, ctx) => {
     ]);
     const daily = [];
     let taken = 0, skipped = 0, unsure = 0, scheduled = 0;
+    const minutes = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5));
+    const overdueToday: { name: string; time: string; important: boolean }[] = [];
     for (const d of out.days as string[]) {
       let dayScheduled = 0, dayTaken = 0;
       for (const m of meds.filter((m) => scheduledOn(m, d))) {
@@ -97,6 +108,8 @@ export const GET = route(async (req, ctx) => {
           if (d === today && time > nowTime) continue; // not due yet
           dayScheduled++;
           const log = logs.find((l) => l.medication_id === m.id && l.scheduled_date === d && l.scheduled_time === time);
+          // Due more than an hour ago today and still not marked at all.
+          if (d === today && !log && minutes(nowTime) - minutes(time) >= 60) overdueToday.push({ name: m.name, time, important: m.important });
           if (log?.status === "taken") dayTaken++;
           if (log?.status === "skipped") skipped++;
           if (log?.status === "unsure") unsure++;
@@ -116,6 +129,7 @@ export const GET = route(async (req, ctx) => {
       missing: scheduled - taken - skipped - unsure,
       scheduled,
       daily,
+      overdueToday,
     };
   } else out.medications = null;
 

@@ -12,6 +12,18 @@ export const GET = route(async (req, ctx) => {
   const to = url.searchParams.get("to");
   if (!isDateOnly(date) || !isIso(from) || !isIso(to)) return { patient };
 
+  // Remember the patient's own time zone, so family abroad see "today" and
+  // "missed dose" by her clock, not theirs.
+  const tz = url.searchParams.get("tz");
+  if (tz && tz !== patient.timezone) {
+    try {
+      new Intl.DateTimeFormat("en", { timeZone: tz });
+      await ctx.store.update("patients", patient.id, { timezone: tz });
+    } catch {
+      /* unknown zone name: ignore */
+    }
+  }
+
   const [pain, meds, logs, meals, alerts, checkIns] = await Promise.all([
     ctx.store.list("pain_episodes", { patient_id: patient.id }, { range: { column: "started_at", from, to } }),
     ctx.store.list("medications", { patient_id: patient.id, active: true }),

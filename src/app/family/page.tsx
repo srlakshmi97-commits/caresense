@@ -31,6 +31,7 @@ interface Dash {
     meds: { id: string; name: string; purpose: string | null; dosage: string; times: string[]; instructions: string | null; important: boolean }[];
     taken: number; skipped: number; unsure: number; missing: number; scheduled: number;
     daily: { date: string; taken: number; scheduled: number }[];
+    overdueToday: { name: string; time: string; important: boolean }[];
   } | null;
   records: { newCount: number; recent: { id: string; title: string; category: never; record_date: string | null; created_at: string; uploaded_by_name: string }[] } | null;
   attention: { count: number; alerts: { id: string; created_at: string; rules: string[]; source: string }[] } | null;
@@ -138,7 +139,7 @@ function Dashboard({ patientId }: { patientId: string }) {
 
       <section aria-labelledby="al">
         <h2 id="al" className="mb-3 text-2xl font-bold">{t("family.alerts")}</h2>
-        {data.notifications.length === 0 && (!att || att.alerts.length === 0) ? (
+        {data.notifications.length === 0 && (!att || att.alerts.length === 0) && !(m && m.overdueToday.length) ? (
           <p className="text-lg text-muted">{t("family.noAlerts")}</p>
         ) : (
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -154,6 +155,11 @@ function Dashboard({ patientId }: { patientId: string }) {
                 {noteText(n, "Body")}
               </AlertCard>
             ))}
+            {m && m.overdueToday.length > 0 && (
+              <AlertCard kind="medication" title={t("reminders.overdueTitle")}>
+                {m.overdueToday.map((o) => t("reminders.overdueItem", { medicine: o.name + (o.important ? " ★" : ""), time: fmtClock(o.time) })).join(" | ")}
+              </AlertCard>
+            )}
             {att?.alerts.slice(0, 4).map((a) => (
               <AlertCard key={a.id} kind="emergency" title={t("family.warningSigns", { name })} meta={`${fmtDay(a.created_at)} · ${fmtTime(a.created_at)}`}>
                 {a.rules.map((r) => t(`safety.rules.${r}` as MessageKey)).join(" · ")}

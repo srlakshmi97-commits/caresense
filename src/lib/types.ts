@@ -18,6 +18,8 @@ export interface Patient {
   date_of_birth: string | null; // YYYY-MM-DD; age is always computed from this
   sex: Sex | null;
   preferred_language: string;
+  /** IANA time zone of the patient's phone (e.g. "Asia/Kolkata"); medicine times are in this zone. */
+  timezone?: string | null;
   emergency_contact_name: string | null;
   emergency_contact_phone: string | null;
   emergency_number: string;

@@ -29,6 +29,7 @@ create table public.patients (
   date_of_birth date,                      -- age is always computed from this
   sex text check (sex in ('female', 'male', 'other')),
   preferred_language text not null default 'en',
+  timezone text,                           -- IANA zone of the patient's phone; medicine times are in this zone
   emergency_contact_name text,
   emergency_contact_phone text,
   emergency_number text not null default '112',

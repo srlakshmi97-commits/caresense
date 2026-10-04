@@ -76,6 +76,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
     date_of_birth: "1958-03-14",
     sex: "female",
     preferred_language: "en",
+    timezone: null, // set from her phone the first time she opens the app
     emergency_contact_name: "Priya (daughter)",
     emergency_contact_phone: "+1 206 555 0147",
     emergency_number: "112",

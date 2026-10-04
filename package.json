@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/safety/engine.test.ts src/lib/safety/multilingual.test.ts src/lib/body/muscles.test.ts src/lib/nutrition/foods.test.ts src/lib/ai/grounding.test.ts",
+    "test": "tsx --test src/lib/safety/engine.test.ts src/lib/safety/multilingual.test.ts src/lib/body/muscles.test.ts src/lib/nutrition/foods.test.ts src/lib/ai/grounding.test.ts src/lib/client/reminders.test.ts",
     "demo:reset": "tsx scripts/reset-demo.ts"
   },
   "dependencies": {

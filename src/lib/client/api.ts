@@ -101,6 +101,9 @@ export function useApi<T>(path: string | null) {
 
   useEffect(() => {
     load();
+    // Something changed elsewhere (e.g. a dose marked from a reminder): reload quietly.
+    window.addEventListener("cs:refresh", load);
+    return () => window.removeEventListener("cs:refresh", load);
   }, [load]);
 
   return { data, error, loading, reload: load, setData };

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { AlertTriangle, CheckCircle2, Circle } from "lucide-react";
 import { useT } from "@/lib/i18n/client";
 import { api, useApi } from "@/lib/client/api";
-import { dayBounds, fmtClock, greetingKey } from "@/lib/client/format";
+import { dayBounds, fmtClock, greetingKey, timeZone } from "@/lib/client/format";
 import type { MessageKey } from "@/lib/i18n";
 import { Button } from "@/components/Button";
 import { LargeActionCard } from "@/components/LargeActionCard";
@@ -43,7 +43,7 @@ export default function ParentHome() {
   const t = useT();
   const toast = useToast();
   const bounds = useMemo(() => dayBounds(), []);
-  const { data, error, loading, reload } = useApi<Home>(`/api/home?date=${bounds.date}&from=${encodeURIComponent(bounds.from)}&to=${encodeURIComponent(bounds.to)}`);
+  const { data, error, loading, reload } = useApi<Home>(`/api/home?date=${bounds.date}&from=${encodeURIComponent(bounds.from)}&to=${encodeURIComponent(bounds.to)}&tz=${encodeURIComponent(timeZone())}`);
   const [checking, setChecking] = useState(false);
 
   if (loading && !data) return <Loading />;

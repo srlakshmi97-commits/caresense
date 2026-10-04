@@ -11,7 +11,30 @@ The store apps will be a native wrapper around the same code, and they need a li
 3. **Anthropic API key.** Turn on AI and test the report summaries, dish lookup and chat in all six languages.
 4. **Beta with your mom.** On Android, open the site in Chrome, then ⋮ → *Add to Home screen*. It then runs like an app. Collect her feedback for 2–4 weeks.
 
-## 1. Wrapping approach: Capacitor (recommended)
+## 0.5 Fastest route to the Play Store: package the live site (TWA)
+
+Google Play accepts a **Trusted Web Activity**: an Android app that shows the live CareSense website full-screen, with no browser bar. No code is rewritten, and every update to the website reaches the app without a new store release.
+
+What it needs:
+
+- **A complete installable web app.** Done: the manifest, the 192/512 px icons and the service worker are all in place.
+- **A permanent web address.** Done: `caresense-delta.vercel.app`. A custom domain such as `caresense.in` looks better in the store.
+- **Packaging.** Use [PWABuilder](https://www.pwabuilder.com): paste the address and download the Android package. It also creates the signing key. **Keep that key file safe**; without it you can never update the app.
+- **A small verification file** on the site (`/.well-known/assetlinks.json`). It proves the app and the website belong to the same owner. PWABuilder generates the contents.
+- **A Google Play Console account:** $25, one time. New personal accounts must run a closed test with 12 testers for 14 days before going public.
+
+Phone notifications sent from the server (web push) work inside this kind of app, so medicine reminders that ring when the app is closed become possible once the database step is done.
+
+This route covers Google Play only. For the Apple App Store, use the Capacitor approach below.
+
+**Google will not approve it until these exist** (see section 4):
+
+- real accounts with passwords (the Supabase step)
+- account deletion
+- a privacy policy
+- the health-apps declaration
+
+## 1. Wrapping approach: Capacitor (recommended for iPhone, and for deeper native features)
 
 [Capacitor](https://capacitorjs.com) puts this same web app inside a real Android/iOS app. It also gives the app access to native phone features, which the web version can't reach.
 

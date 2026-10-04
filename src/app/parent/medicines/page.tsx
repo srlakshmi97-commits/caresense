@@ -11,6 +11,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { MedicationCard } from "@/components/MedicationCard";
 import { MedicationForm } from "@/components/MedicationForm";
 import { PageHeader } from "@/components/PageHeader";
+import { ReminderSettings } from "@/components/ReminderSettings";
 import { EmptyState, ErrorState, Loading } from "@/components/States";
 import { useToast } from "@/components/Toast";
 
@@ -81,6 +82,8 @@ export default function MedicinesPage() {
         <Info className="mt-1 h-5 w-5 shrink-0 text-calm" aria-hidden />
         {t("meds.safetyNote")}
       </p>
+
+      <ReminderSettings />
 
       <section aria-labelledby="all" className="mt-8">
         <h2 id="all" className="mb-3 text-2xl font-bold">{t("meds.allMeds")}</h2>
