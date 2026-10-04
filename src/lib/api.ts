@@ -4,6 +4,7 @@
 
 import { NextResponse } from "next/server";
 import { getCtx, type Ctx } from "./auth/session";
+import { ConfigError } from "./config";
 
 export type ErrorCode =
   | "unauthorized"
@@ -45,8 +46,16 @@ export function route<P = Record<string, never>>(fn: Handler<P>) {
       if (err instanceof HttpError) {
         return NextResponse.json({ error: err.code, field: err.field }, { status: err.status });
       }
-      console.error(`[caresense] ${req.method} ${new URL(req.url).pathname} failed: ${(err as Error)?.name ?? "Error"}`);
-      return NextResponse.json({ error: "generic" }, { status: 500 });
+      if (err instanceof ConfigError) {
+        // Names the setting that is missing/wrong (never its value).
+        console.error(`[caresense] configuration problem: ${err.setting} — ${err.message}`);
+        return NextResponse.json({ error: "not_configured", setting: err.setting }, { status: 503 });
+      }
+      // System error codes (e.g. EROFS, ENOENT) carry no personal data and make deploy issues diagnosable.
+      const sys = (err as { code?: unknown })?.code;
+      const detail = typeof sys === "string" && /^[A-Z0-9_]{3,20}$/.test(sys) ? sys : undefined;
+      console.error(`[caresense] ${req.method} ${new URL(req.url).pathname} failed: ${(err as Error)?.name ?? "Error"}${detail ? ` (${detail})` : ""}`);
+      return NextResponse.json({ error: "generic", detail }, { status: 500 });
     }
   };
 }

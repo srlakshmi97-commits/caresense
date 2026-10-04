@@ -23,7 +23,7 @@ import type {
 import { SEVERITY_SCORE } from "../types";
 import { estimateProtein, findFood } from "../nutrition/foods";
 import { checkPainEpisode } from "../safety/engine";
-import { newId } from "../util";
+
 import { t, type MessageKey } from "../i18n";
 import { textPdf, type PdfLine } from "./pdf";
 
@@ -53,7 +53,13 @@ const SEED_MUSCLE: Partial<Record<string, string>> = {
   head: "c.head",
 };
 
+// Deterministic ids: every server instance seeds the SAME demo data, so a
+// link to a demo report works no matter which instance answers (serverless).
+let seedCounter = 0;
+const sid = () => `00000000-0000-4000-8000-${String(++seedCounter).padStart(12, "0")}`;
+
 export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
+  seedCounter = 0;
   const now = new Date();
   const iso = (d: Date) => d.toISOString();
 
@@ -83,7 +89,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
   };
 
   const link: FamilyLink = {
-    id: newId(),
+    id: sid(),
     patient_id: PATIENT_ID,
     family_profile_id: DEMO_FAMILY_ID,
     family_name: "Priya",
@@ -104,7 +110,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
   const giVisit = dayAt(1, 11, 30);
 
   const med = (m: Partial<Medication> & Pick<Medication, "name" | "dosage" | "frequency" | "times">): Medication => ({
-    id: newId(),
+    id: sid(),
     patient_id: PATIENT_ID,
     purpose: null,
     instructions: null,
@@ -136,7 +142,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
         if (daysAgo === 0 && h >= 12) continue; // leave today's later doses for the user
         if (daysAgo === 5 && time === "21:00") continue; // not marked at all
         const status = skipPattern[`${daysAgo}|${time}`] ?? "taken";
-        logs.push({ id: newId(), patient_id: PATIENT_ID, medication_id: m.id, scheduled_date: ymd(dayAt(daysAgo)), scheduled_time: time, status, logged_at: iso(when) });
+        logs.push({ id: sid(), patient_id: PATIENT_ID, medication_id: m.id, scheduled_date: ymd(dayAt(daysAgo)), scheduled_time: time, status, logged_at: iso(when) });
       }
     }
   }
@@ -165,7 +171,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
     const end = mins != null ? new Date(start.getTime() + mins * 60000) : null;
     const ended = end && end <= now ? end : null;
     const ep: PainEpisode = {
-      id: newId(),
+      id: sid(),
       patient_id: PATIENT_ID,
       locations,
       muscles: locations.map((l) => SEED_MUSCLE[l]).filter((m): m is string => Boolean(m)),
@@ -187,9 +193,9 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
     ep.safety_rules = safety.rules;
     episodes.push(ep);
     if (safety.urgent) {
-      alerts.push({ id: newId(), patient_id: PATIENT_ID, source: "pain", rules: safety.rules, pain_episode_id: ep.id, created_at: ep.created_at });
+      alerts.push({ id: sid(), patient_id: PATIENT_ID, source: "pain", rules: safety.rules, pain_episode_id: ep.id, created_at: ep.created_at });
       notifications.push({
-        id: newId(),
+        id: sid(),
         patient_id: PATIENT_ID,
         family_link_id: link.id,
         kind: "emergency",
@@ -225,7 +231,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
       }));
       const when = dayAt(daysAgo, mealHours[type], 15);
       meals.push({
-        id: newId(),
+        id: sid(),
         patient_id: PATIENT_ID,
         meal_type: type,
         eaten_at: iso(when),
@@ -253,7 +259,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
     findings: { text: string; quote: string }[];
     events: { type: TimelineEvent["type"]; title: string; detail: string | null; quote: string }[];
   }) {
-    const id = newId();
+    const id = sid();
     const filePath = `${PATIENT_ID}/${id}/${opts.fileName}`;
     const pdf = textPdf(opts.lines);
     await files.put(filePath, pdf, "application/pdf");
@@ -277,7 +283,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
       created_at: iso(opts.date),
     });
     extractions.push({
-      id: newId(),
+      id: sid(),
       record_id: id,
       patient_id: PATIENT_ID,
       document_type: opts.documentType,
@@ -292,7 +298,7 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
     });
     for (const e of opts.events) {
       timeline.push({
-        id: newId(),
+        id: sid(),
         patient_id: PATIENT_ID,
         event_date: ymd(opts.date),
         type: e.type,
@@ -470,11 +476,11 @@ export async function buildDemoData(files: FileStore): Promise<Partial<Db>> {
   });
 
   const audit: AuditEntry[] = [
-    { id: newId(), patient_id: PATIENT_ID, actor_id: DEMO_FAMILY_ID, actor_name: "Priya", action: "family_joined", detail: null, created_at: iso(dayAt(89)) },
-    { id: newId(), patient_id: PATIENT_ID, actor_id: DEMO_FAMILY_ID, actor_name: "Priya", action: "family_viewed_dashboard", detail: null, created_at: iso(dayAt(1, 19)) },
+    { id: sid(), patient_id: PATIENT_ID, actor_id: DEMO_FAMILY_ID, actor_name: "Priya", action: "family_joined", detail: null, created_at: iso(dayAt(89)) },
+    { id: sid(), patient_id: PATIENT_ID, actor_id: DEMO_FAMILY_ID, actor_name: "Priya", action: "family_viewed_dashboard", detail: null, created_at: iso(dayAt(1, 19)) },
   ];
   notifications.push({
-    id: newId(),
+    id: sid(),
     patient_id: PATIENT_ID,
     family_link_id: link.id,
     kind: "new_report",
