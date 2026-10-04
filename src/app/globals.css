@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CareSense design tokens (RGB triplets for Tailwind alpha support).
+   Light, calm and high-contrast by design; every text/background pair
+   below meets WCAG AA (most meet AAA). */
+:root {
+  color-scheme: light;
+  --canvas: 250 247 242;
+  --surface: 255 255 255;
+  --ink: 31 42 46;
+  --muted: 74 88 94;
+  --line: 222 216 206;
+  --brand: 30 110 90;
+  --brand-deep: 20 82 66;
+  --brand-soft: 227 241 235;
+  --calm: 43 95 138;
+  --calm-soft: 230 239 247;
+  --warn: 133 84 0;
+  --warn-soft: 255 244 219;
+  --urgent: 176 32 22;
+  --urgent-soft: 254 236 235;
+  --ok: 28 104 56;
+  --ok-soft: 229 244 233;
+}
+
+/* 18px base: everything in rem scales up for older eyes, and respects
+   the user's own browser font-size setting. */
+html {
+  font-size: 112.5%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: rgb(var(--canvas));
+  color: rgb(var(--ink));
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Strong, always-visible keyboard focus. */
+:focus-visible {
+  outline: 3px solid rgb(var(--calm));
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-card border border-line bg-surface shadow-card;
+  }
+  .field {
+    @apply block w-full min-h-touch rounded-xl border-2 border-line bg-surface px-4 py-3 text-lg text-ink placeholder:text-muted/80 focus:border-calm focus:outline-none;
+  }
+  .label {
+    @apply mb-2 block text-lg font-semibold text-ink;
+  }
+  .page {
+    @apply mx-auto w-full max-w-xl px-4 pb-28 pt-4 sm:px-6;
+  }
+  .page-wide {
+    @apply mx-auto w-full max-w-6xl px-4 pb-16 pt-4 sm:px-6 lg:px-8;
+  }
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "caresense",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CareSense – an elderly-friendly health companion that keeps far-away family connected.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/lib/safety/engine.test.ts src/lib/safety/multilingual.test.ts src/lib/body/muscles.test.ts src/lib/nutrition/foods.test.ts src/lib/ai/grounding.test.ts",
+    "demo:reset": "tsx scripts/reset-demo.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.58.0",
+    "lucide-react": "^1.48.0",
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^2.15.4",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}
