@@ -2,7 +2,35 @@
 
 > *Your family may be far away. Your health information doesn't have to be.*
 
+### 🔗 Live demo: **[caresense-delta.vercel.app](https://caresense-delta.vercel.app)**
+
 CareSense is an elderly-friendly health companion. An older parent logs pain, meals and medicines in a few large taps, keeps medical reports in one place, and asks questions in plain language. An adult child who lives far away sees **only what the parent chooses to share**.
+
+| Choose a language | Home with medicine reminder | Tap where it hurts |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/1-language.png" width="240" alt="Language picker with English and five Indian languages"> | <img src="docs/screenshots/2-home-reminder.png" width="240" alt="Parent home screen with a medicine reminder banner"> | <img src="docs/screenshots/3-muscle-map.png" width="240" alt="Muscle map with the right shoulder selected"> |
+
+| Family dashboard | Trends for the family |
+|:---:|:---:|
+| <img src="docs/screenshots/4-family-dashboard.png" width="360" alt="Family dashboard showing symptoms, meals, medicines and reports"> | <img src="docs/screenshots/5-family-charts.png" width="360" alt="Charts of pain frequency and pain strength per day"> |
+
+### Try it in 60 seconds
+
+The demo uses a **fictional** patient, and there is nothing to install or sign up for.
+
+1. Open the [live demo](https://caresense-delta.vercel.app) and choose a language.
+2. **As the parent:** *I'm the Parent* → **Continue as Lakshmi**. Try *Log Pain* (tap the body, then the exact muscle), *Log Food*, and *Medicines*.
+3. **As the daughter abroad:** tap **Sign out**, then *I'm a Family Member* → **Continue as Priya** to see the dashboard, charts and alerts.
+4. Switch language at any time: try தமிழ் or हिन्दी.
+
+Notes for visitors: the demo resets from time to time, and the AI features (report summaries, free-form questions) are switched off in the public demo.
+
+### What it shows
+
+- **Designed for older users:** large buttons, plain words, voice input, 6 languages.
+- **Safety first:** emergency symptoms are detected by fixed rules, in every language, before any AI answers. The app never gives advice about changing medicines.
+- **Privacy by design:** the parent chooses exactly what family can see and can turn access off instantly.
+- **Built with AI-assisted development** (Claude Code), from product spec to deployed app, with 32 automated tests.
 
 **CareSense is not a doctor.** It does not diagnose, prescribe, or change medicines. Its job is:
 **collect → organise → explain → notice changes → escalate when appropriate → connect family.**
@@ -23,6 +51,7 @@ All demo data (the patient "Lakshmi Raman", her reports, clinicians and phone nu
 - **Voice input** ("Speak") in the chosen language, for questions and food.
 - **Multilingual safety:** red flags are detected in Indian languages and romanised forms ("nenju vali", "seene me dard").
 - **Friendly "I didn't understand"** for accidental typing.
+- **Medicine reminders:** a banner and phone notification at each dose time with a one-tap "Taken" button, a calendar export so the phone rings even when the app is closed, and a "not marked yet" alert for family.
 
 See [`docs/APP_STORE_PLAN.md`](docs/APP_STORE_PLAN.md) for the path to the App Store and Play Store.
 
@@ -56,7 +85,7 @@ To turn on the AI features, add `ANTHROPIC_API_KEY` to `.env.local` (see below).
 ```bash
 npm run dev         # development server
 npm run build       # production build
-npm test            # safety (English + Indian languages), muscles, food search, grounding (27 tests)
+npm test            # safety (English + Indian languages), muscles, food search, grounding, reminders (32 tests)
 npm run typecheck   # TypeScript
 npm run demo:reset  # wipe and re-seed demo data
 ```
