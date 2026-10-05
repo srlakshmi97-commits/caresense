@@ -54,3 +54,35 @@ test("gibberish detection", () => {
   assert.equal(looksLikeGibberish("What medicines am I taking?"), false);
   assert.equal(looksLikeGibberish("நெஞ்சு"), false);
 });
+
+test("red flags in Spanish escalate without AI, with or without accents", () => {
+  const cases: [string, string][] = [
+    ["Me duele el pecho desde la mañana", "chest_pain"],
+    ["tengo presion en el pecho", "chest_pain"],
+    ["No puedo respirar bien", "breathing"],
+    ["Mi mamá se desmayó en la cocina", "fainting"],
+    ["Vomité sangre anoche", "bleeding"],
+    ["no paro de vomitar", "persistent_vomiting"],
+    ["tengo la boca torcida y no puedo hablar", "neuro"],
+    ["Tengo los ojos amarillos y fiebre", "jaundice_fever"],
+    ["a veces pienso en quitarme la vida", "self_harm"],
+  ];
+  for (const [text, rule] of cases) {
+    const r = urgent(text);
+    assert.ok(r.urgent, `expected urgent: ${text}`);
+    assert.ok(r.rules.includes(rule as never), `expected ${rule} for ${text}, got ${r.rules}`);
+  }
+});
+
+test("ordinary Spanish questions do not escalate", () => {
+  for (const text of ["¿Qué medicinas estoy tomando?", "Hoy comí arroz con pollo", "¿Qué significa mi informe de ecografía?", "Hoy me siento bien", "¿Para qué es esta pastilla?"]) {
+    assert.equal(urgent(text).urgent, false, text);
+    assert.equal(screenMessage(text).medChange, false, text);
+  }
+});
+
+test("medicine-change questions in Spanish go to the prescriber", () => {
+  for (const q of ["¿Puedo dejar de tomar esta pastilla?", "puedo suspender el medicamento", "¿Puedo tomar doble dosis?", "quiero saltarme la medicina de la noche"]) {
+    assert.ok(screenMessage(q).medChange, q);
+  }
+});

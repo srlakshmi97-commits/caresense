@@ -4,6 +4,7 @@ import hi from "./hi";
 import te from "./te";
 import ml from "./ml";
 import kn from "./kn";
+import es from "./es";
 
 export type DeepPartial<T> = { [K in keyof T]?: T[K] extends string ? string : DeepPartial<T[K]> };
 
@@ -25,6 +26,7 @@ export const LOCALES: Record<string, LocaleInfo> = {
   te: { native: "తెలుగు", english: "Telugu", intl: "te-IN", messages: te },
   ml: { native: "മലയാളം", english: "Malayalam", intl: "ml-IN", messages: ml },
   kn: { native: "ಕನ್ನಡ", english: "Kannada", intl: "kn-IN", messages: kn },
+  es: { native: "Español", english: "Spanish", intl: "es-US", messages: es },
 };
 
 export const AVAILABLE_LOCALES = Object.keys(LOCALES);

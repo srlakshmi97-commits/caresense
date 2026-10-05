@@ -26,7 +26,7 @@ export interface DishEstimate {
 }
 
 const SYSTEM = `You estimate nutrition for home-cooked food, especially Indian regional dishes (Tamil, Kerala, Andhra, Karnataka, North Indian) and common world foods.
-The user names a dish in English, Tamil, Hindi, Telugu, Malayalam, Kannada, or a romanised mix (e.g. "cabbage koottu", "keerai masiyal", "lauki sabzi", "kadalai mittai").
+The user names a dish in English, Tamil, Hindi, Telugu, Malayalam, Kannada, Spanish, or a romanised mix (e.g. "cabbage koottu", "keerai masiyal", "lauki sabzi", "sopa de lentejas").
 - Identify the dish and its typical home-style ingredients.
 - Choose 2–3 household portions that fit the dish (bowls for curries/dals/koottu, pieces for idli-like items, glass/cup for drinks, plate for rice dishes).
 - Estimate protein in grams for each portion for a typical recipe. Round to the nearest 0.5 g. Be conservative; never exaggerate.

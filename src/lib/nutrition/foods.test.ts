@@ -32,3 +32,10 @@ test("foods are found in any language", () => {
   assert.equal(first("idly"), "idli");
   assert.deepEqual(searchFoods("x"), []);
 });
+
+test("Spanish food names find catalogue foods", () => {
+  assert.deepEqual(searchFoods("arroz con pollo").map((x) => x.key).sort(), ["chicken", "rice"]);
+  assert.equal(searchFoods("plátano")[0].key, "banana");
+  assert.equal(searchFoods("pan")[0].key, "bread");
+  assert.equal(searchFoods("paneer")[0].key, "paneer");
+});

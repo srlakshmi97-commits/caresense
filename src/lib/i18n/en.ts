@@ -1,5 +1,5 @@
 // English UI text. Every user-facing string in the app comes from here.
-// Other languages (ta, hi, te, ml, kn …) mirror these keys; any missing key
+// Other languages (ta, hi, te, ml, kn, es …) mirror these keys; any missing key
 // falls back to English. Keep sentences short and plain — readers are older adults.
 
 const en = {

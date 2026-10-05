@@ -1,6 +1,6 @@
 // Combines every deterministic screen for a free-text message:
 //  • English rules on the original text
-//  • Indian-language phrase lists on the original text
+//  • Indian-language and Spanish phrase lists on the original text
 //  • English rules on an (optional) English translation of the message
 // The decision itself is always rule-based; translation only widens coverage.
 

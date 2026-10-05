@@ -8,7 +8,7 @@ The store apps will be a native wrapper around the same code, and they need a li
 
 1. **Supabase project in India.** Choose the **Mumbai (ap-south-1)** region. Run `supabase/schema.sql`, then test every journey with real accounts. This code path has been written but not yet run against a live project.
 2. **Deploy to Vercel** (or any Node host). Use a custom domain, e.g. `app.caresense.in`.
-3. **Anthropic API key.** Turn on AI and test the report summaries, dish lookup and chat in all six languages.
+3. **Anthropic API key.** Turn on AI and test the report summaries, dish lookup and chat in all seven languages.
 4. **Beta with your mom.** On Android, open the site in Chrome, then ⋮ → *Add to Home screen*. It then runs like an app. Collect her feedback for 2–4 weeks.
 
 ## 0.5 Fastest route to the Play Store: package the live site (TWA)
@@ -92,7 +92,7 @@ These native features also matter for Apple review. Apple rejects apps that are 
 ## 4. Must-do before launch (not built yet)
 
 - [ ] **Account deletion and data export**, in-app and through a web link
-- [ ] Privacy policy and terms, in all six languages
+- [ ] Privacy policy and terms, in all seven languages
 - [ ] **Native-speaker review of every translation**, and **clinician review** of the safety wording and the Indian-language red-flag phrase lists (`src/lib/safety/multilingual.ts`)
 - [ ] Medicine reminders (local notifications)
 - [ ] Push notifications for family alerts (today they are in-app only)

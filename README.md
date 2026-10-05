@@ -8,7 +8,7 @@ CareSense is an elderly-friendly health companion. An older parent logs pain, me
 
 | Choose a language | Home with medicine reminder | Tap where it hurts |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/1-language.png" width="240" alt="Language picker with English and five Indian languages"> | <img src="docs/screenshots/2-home-reminder.png" width="240" alt="Parent home screen with a medicine reminder banner"> | <img src="docs/screenshots/3-muscle-map.png" width="240" alt="Muscle map with the right shoulder selected"> |
+| <img src="docs/screenshots/1-language.png" width="240" alt="Language picker"> | <img src="docs/screenshots/2-home-reminder.png" width="240" alt="Parent home screen with a medicine reminder banner"> | <img src="docs/screenshots/3-muscle-map.png" width="240" alt="Muscle map with the right shoulder selected"> |
 
 | Family dashboard | Trends for the family |
 |:---:|:---:|
@@ -27,10 +27,10 @@ Notes for visitors: the demo resets from time to time, and the AI features (repo
 
 ### What it shows
 
-- **Designed for older users:** large buttons, plain words, voice input, 6 languages.
+- **Designed for older users:** large buttons, plain words, voice input, 7 languages.
 - **Safety first:** emergency symptoms are detected by fixed rules, in every language, before any AI answers. The app never gives advice about changing medicines.
 - **Privacy by design:** the parent chooses exactly what family can see and can turn access off instantly.
-- **Built with AI-assisted development** (Claude Code), from product spec to deployed app, with 32 automated tests.
+- **Built with AI-assisted development** (Claude Code), from product spec to deployed app, with 36 automated tests.
 
 **CareSense is not a doctor.** It does not diagnose, prescribe, or change medicines. Its job is:
 **collect → organise → explain → notice changes → escalate when appropriate → connect family.**
@@ -41,7 +41,7 @@ All demo data (the patient "Lakshmi Raman", her reports, clinicians and phone nu
 
 **What's new in v1.1:**
 
-- **Language picker** on first launch, with the full app translated into five Indian languages.
+- **Language picker** on first launch, with the full app translated into five Indian languages and Spanish.
 - **Onboarding** now asks for date of birth, sex and past medical history, and ends with "Add your existing medical reports".
 - **Muscle map for pain:** front and back, 24 muscle areas on each side. The first tap zooms in, the next taps choose exact spots.
 - **Food:**
@@ -85,7 +85,7 @@ To turn on the AI features, add `ANTHROPIC_API_KEY` to `.env.local` (see below).
 ```bash
 npm run dev         # development server
 npm run build       # production build
-npm test            # safety (English + Indian languages), muscles, food search, grounding, reminders (32 tests)
+npm test            # safety (English + Indian languages + Spanish), muscles, food search, grounding, reminders (36 tests)
 npm run typecheck   # TypeScript
 npm run demo:reset  # wipe and re-seed demo data
 ```
@@ -179,7 +179,7 @@ Each layer runs in order. A layer that matches stops the chain.
    - The alert is logged. If the parent allows it, family members are notified. The notification never includes the message text.
    - **Multilingual safety:** checks run in three layers.
      - The English rules.
-     - Phrase lists for Tamil, Hindi, Telugu, Malayalam and Kannada, in native script and romanised forms ([`safety/multilingual.ts`](src/lib/safety/multilingual.ts)). These work offline.
+     - Phrase lists for Tamil, Hindi, Telugu, Malayalam and Kannada (native script and romanised forms) and Spanish (with and without accents) ([`safety/multilingual.ts`](src/lib/safety/multilingual.ts)). These work offline.
      - When AI is available, the message is translated to English and the English rules run again. The decision is still made by the rules; translation only widens what they can catch.
    - ⚠ The phrase lists must be reviewed by native-speaking clinicians before launch.
 2. **Medication guard.** Questions about stopping, skipping, doubling or changing a medicine get a fixed answer: "please talk to your doctor first". The answer names the prescribers on file. The model is never asked.
@@ -232,7 +232,7 @@ Each layer runs in order. A layer that matches stops the chain.
 
 ## Localization
 
-All UI text comes from [`src/lib/i18n/en.ts`](src/lib/i18n/en.ts). It is translated in `ta.ts`, `hi.ts`, `te.ts`, `ml.ts` and `kn.ts`, and every key is covered.
+All UI text comes from [`src/lib/i18n/en.ts`](src/lib/i18n/en.ts). It is translated in `ta.ts`, `hi.ts`, `te.ts`, `ml.ts`, `kn.ts` and `es.ts`, and every key is covered.
 
 - **How the language choice works:** the choice is saved in a cookie and on the patient's profile, so AI answers and report summaries follow it too.
 - **Fonts:** Noto Sans is loaded for Indian scripts.

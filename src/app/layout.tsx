@@ -16,7 +16,7 @@ const telugu = Noto_Sans_Telugu({ subsets: ["telugu"], weight: ["400", "700"], v
 const malayalam = Noto_Sans_Malayalam({ subsets: ["malayalam"], weight: ["400", "700"], variable: "--font-ml", display: "swap" });
 const kannada = Noto_Sans_Kannada({ subsets: ["kannada"], weight: ["400", "700"], variable: "--font-kn", display: "swap" });
 
-const SHARE_TEXT = "A health companion for elderly parents, and the family who live far away. Pain, meals, medicines and reports in 6 languages.";
+const SHARE_TEXT = "A health companion for elderly parents, and the family who live far away. Pain, meals, medicines and reports in 7 languages.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000"),

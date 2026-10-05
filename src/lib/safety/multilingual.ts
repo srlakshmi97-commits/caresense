@@ -1,5 +1,5 @@
 // Red-flag phrases in Indian languages (native script + common romanised
-// spellings). Deterministic substring matching — deliberately broad, no
+// spellings) and Spanish (with and without accents). Deterministic substring matching — deliberately broad, no
 // negation handling: in these languages we prefer a false alarm to a miss.
 //
 // ⚠ These lists MUST be reviewed and extended by native-speaking clinicians
@@ -26,6 +26,8 @@ const PHRASES: PhraseList = {
     "നെഞ്ചുവേദന", "നെഞ്ചു വേദന", "നെഞ്ചിൽ വേദന", "nenju vedana", "nenjuvedana",
     // Kannada
     "ಎದೆ ನೋವು", "ಎದೆನೋವು", "ede novu",
+    // Spanish
+    "dolor de pecho", "dolor en el pecho", "duele el pecho", "presión en el pecho", "presion en el pecho", "opresión en el pecho", "opresion en el pecho", "infarto",
   ],
   breathing: [
     "மூச்சு திணறல்", "மூச்சுத் திணறல்", "மூச்சு விட முடியவில்லை", "மூச்சு வாங்குது", "மூச்சு வாங்குகிறது",
@@ -34,6 +36,7 @@ const PHRASES: PhraseList = {
     "ఊపిరి ఆడటం లేదు", "శ్వాస తీసుకోవడం కష్టం", "ఆయాసం", "oopiri aadatam ledu", "aayasam",
     "ശ്വാസം മുട്ടൽ", "ശ്വാസതടസ്സം", "ശ്വാസം കിട്ടുന്നില്ല", "shwasam muttal", "swasam muttal",
     "ಉಸಿರಾಟದ ತೊಂದರೆ", "ಉಸಿರು ಕಟ್ಟುತ್ತಿದೆ", "ಉಸಿರಾಡಲು ಕಷ್ಟ", "usiru kattide",
+    "no puedo respirar", "me cuesta respirar", "cuesta trabajo respirar", "falta de aire", "falta el aire", "dificultad para respirar", "me ahogo", "me estoy ahogando",
   ],
   fainting: [
     "மயங்கி விழுந்", "மயக்கம் போட்டு", "மயக்கமாகி விழு", "சுயநினைவு இழந்", "mayangi vizhunth", "mayakkam pottu",
@@ -41,6 +44,7 @@ const PHRASES: PhraseList = {
     "స్పృహ తప్పి", "సొమ్మసిల్లి", "sommasilli",
     "ബോധം കെട്ട", "ബോധക്ഷയം", "തലകറങ്ങി വീണ", "bodham kett",
     "ಪ್ರಜ್ಞೆ ತಪ್ಪಿ", "ಮೂರ್ಛೆ", "prajne tappi",
+    "me desmay", "se desmay", "desmayo", "perdí el conocimiento", "perdi el conocimiento", "perdió el conocimiento", "perdio el conocimiento",
   ],
   bleeding: [
     "ரத்த வாந்தி", "இரத்த வாந்தி", "வாந்தியில் ரத்தம்", "மலத்தில் ரத்தம்", "மலத்தில் இரத்தம்", "கருப்பு மலம்", "ratha vanthi", "malathil ratham",
@@ -48,6 +52,7 @@ const PHRASES: PhraseList = {
     "రక్తపు వాంతి", "వాంతిలో రక్తం", "మలంలో రక్తం", "raktham vanthi",
     "രക്തം ഛർദ്ദി", "ചോര ഛർദ്ദി", "മലത്തിൽ രക്തം", "മലത്തിൽ ചോര", "chora chardi",
     "ರಕ್ತ ವಾಂತಿ", "ಮಲದಲ್ಲಿ ರಕ್ತ", "raktha vanthi",
+    "vómito con sangre", "vomito con sangre", "vomitando sangre", "vomité sangre", "vomite sangre", "sangre en el vómito", "sangre en el vomito", "sangre en las heces", "sangre en el excremento", "sangre en la popó", "sangre en la popo", "heces negras",
   ],
   persistent_vomiting: [
     "தொடர்ந்து வாந்தி", "நிற்காமல் வாந்தி", "வாந்தி நிற்கவில்லை", "thodarnthu vanthi", "vanthi nikkala",
@@ -55,6 +60,7 @@ const PHRASES: PhraseList = {
     "వాంతులు ఆగడం లేదు", "పదే పదే వాంతులు", "vanthulu aagadam ledu",
     "നിർത്താതെ ഛർദ്ദി", "തുടർച്ചയായി ഛർദ്ദി",
     "ನಿಲ್ಲದ ವಾಂತಿ", "ಪದೇ ಪದೇ ವಾಂತಿ",
+    "no paro de vomitar", "no dejo de vomitar", "no puedo dejar de vomitar", "vómitos constantes", "vomitos constantes", "vomitando todo el día", "vomitando todo el dia",
   ],
   severe_abdominal: [
     "கடுமையான வயிற்று வலி", "தாங்க முடியாத வயிற்று வலி", "பயங்கர வயிற்று வலி", "vayiru vali thaanga mudiyala",
@@ -62,14 +68,16 @@ const PHRASES: PhraseList = {
     "తీవ్రమైన కడుపు నొప్పి", "భరించలేని కడుపు నొప్పి",
     "കഠിനമായ വയറുവേദന", "സഹിക്കാൻ പറ്റാത്ത വയറുവേദന",
     "ತೀವ್ರ ಹೊಟ್ಟೆ ನೋವು", "ಸಹಿಸಲಾಗದ ಹೊಟ್ಟೆ ನೋವು",
+    "dolor de estómago muy fuerte", "dolor de estomago muy fuerte", "fuerte dolor de estómago", "fuerte dolor de estomago", "dolor de barriga muy fuerte", "dolor de panza muy fuerte", "dolor abdominal intenso", "dolor abdominal severo", "dolor abdominal muy fuerte", "dolor insoportable en el estómago", "dolor insoportable en el estomago",
   ],
-  confusion: ["நினைவு தடுமாற", "என்ன நடக்கிறது என்று தெரியவில்லை", "होश में नहीं", "గందరగోళంగా ఉంది", "ആശയക്കുഴപ്പം", "ಗೊಂದಲವಾಗುತ್ತಿದೆ"],
+  confusion: ["நினைவு தடுமாற", "என்ன நடக்கிறது என்று தெரியவில்லை", "होश में नहीं", "గందరగోళంగా ఉంది", "ആശയക്കുഴപ്പം", "ಗೊಂದಲವಾಗುತ್ತಿದೆ", "estoy confundid", "está confundid", "esta confundid", "no sé dónde estoy", "no se donde estoy"],
   severe_weakness: [
     "எழுந்திருக்க முடியவில்லை", "நடக்க முடியவில்லை", "ezhunthirikka mudiyala", "nadakka mudiyala",
     "उठ नहीं पा", "चल नहीं पा", "uth nahi pa", "chal nahi pa",
     "లేవలేకపోతున్నా", "నడవలేకపోతున్నా",
     "എഴുന്നേൽക്കാൻ പറ്റുന്നില്ല", "നടക്കാൻ പറ്റുന്നില്ല",
     "ಏಳಲು ಆಗುತ್ತಿಲ್ಲ", "ನಡೆಯಲು ಆಗುತ್ತಿಲ್ಲ",
+    "no puedo levantarme", "no me puedo levantar", "no puedo pararme", "no me puedo parar", "no puedo caminar",
   ],
   neuro: [
     "வாய் கோணல்", "முகம் கோணி", "பேச்சு குழறு", "ஒரு பக்கம் செயலிழ", "பக்கவாதம்", "vaai konal", "pakkavatham",
@@ -77,6 +85,7 @@ const PHRASES: PhraseList = {
     "పక్షవాతం", "మూతి వంకర", "మాట తడబడ", "pakshavatham",
     "പക്ഷാഘാതം", "മുഖം കോടി", "സംസാരം കുഴഞ്ഞ",
     "ಪಾರ್ಶ್ವವಾಯು", "ಬಾಯಿ ಸೊಟ್ಟ", "ಮಾತು ತೊದಲ",
+    "cara caída", "cara caida", "cara torcida", "boca torcida", "no puedo hablar", "no puede hablar", "derrame cerebral", "embolia",
   ],
   allergy: [
     "தொண்டை வீக்கம்", "நாக்கு வீங்", "உதடு வீங்", "முகம் வீங்",
@@ -84,6 +93,7 @@ const PHRASES: PhraseList = {
     "గొంతు వాపు", "నాలుక వాపు", "పెదవులు వాపు",
     "തൊണ്ട വീങ്ങ", "നാവ് വീങ്ങ", "ചുണ്ട് വീങ്ങ",
     "ಗಂಟಲು ಊತ", "ನಾಲಿಗೆ ಊದ", "ತುಟಿ ಊದ",
+    "garganta hinchada", "se me cierra la garganta", "lengua hinchada", "labios hinchados", "se me hincha la garganta", "se me hincha la lengua",
   ],
   self_harm: [
     "தற்கொலை", "சாக வேண்டும்", "உயிரை மாய்த்து", "aatmahatya", "atmahatya",
@@ -91,17 +101,19 @@ const PHRASES: PhraseList = {
     "ఆత్మహత్య", "చచ్చిపోవాలని",
     "ആത്മഹത്യ", "മരിക്കണം",
     "ಆತ್ಮಹತ್ಯೆ", "ಸಾಯಬೇಕು",
+    "suicid", "quiero morir", "quitarme la vida", "matarme", "no quiero vivir",
   ],
 };
 
 // Jaundice + fever is a combination rule.
-const JAUNDICE = ["மஞ்சள் காமாலை", "கண் மஞ்சள்", "पीलिया", "आंखें पीली", "కామెర్లు", "కళ్ళు పసుపు", "മഞ്ഞപ്പിത്തം", "കണ്ണ് മഞ്ഞ", "ಕಾಮಾಲೆ", "ಕಣ್ಣು ಹಳದಿ", "manjal kamalai", "piliya", "peeliya"];
-const FEVER = ["காய்ச்சல்", "ஜுரம்", "बुखार", "జ్వరం", "പനി", "ಜ್ವರ", "kaichal", "kaaichal", "bukhar", "jwaram", "jwara", "pani"];
+const JAUNDICE = ["மஞ்சள் காமாலை", "கண் மஞ்சள்", "पीलिया", "आंखें पीली", "కామెర్లు", "కళ్ళు పసుపు", "മഞ്ഞപ്പിത്തം", "കണ്ണ് മഞ്ഞ", "ಕಾಮಾಲೆ", "ಕಣ್ಣು ಹಳದಿ", "manjal kamalai", "piliya", "peeliya", "ictericia", "ojos amarillos", "piel amarilla"];
+const FEVER = ["காய்ச்சல்", "ஜுரம்", "बुखार", "జ్వరం", "പനി", "ಜ್ವರ", "kaichal", "kaaichal", "bukhar", "jwaram", "jwara", "pani", "fiebre", "calentura"];
 
 // Medication-change intent: an action word AND a medicine word.
 const MED_WORDS = [
   "மாத்திரை", "மருந்து", "ஊசி", "दवा", "दवाई", "गोली", "इंसुलिन", "మందు", "మాత్ర", "టాబ్లెట్", "മരുന്ന്", "ഗുളിക", "ಔಷಧ", "ಮಾತ್ರೆ",
   "maathirai", "mathirai", "marunthu", "dawai", "dawa", "davai", "goli", "mandu", "gulika", "maatre", "tablet", "insulin",
+  "pastilla", "medicina", "medicamento", "píldora", "pildora", "inyección", "inyeccion", "dosis",
 ];
 const MED_ACTIONS = [
   "நிறுத்த", "குறைக்க", "அதிகரிக்க", "இரண்டு மாத்திரை", "தவிர்க்க", "விட்டுவிட", "போடாமல்",
@@ -110,6 +122,7 @@ const MED_ACTIONS = [
   "നിർത്ത", "കുറയ്ക്ക", "കൂട്ട", "ഒഴിവാക്ക",
   "ನಿಲ್ಲಿಸ", "ಕಡಿಮೆ ಮಾಡ", "ಹೆಚ್ಚಿಸ", "ಬಿಡಬಹುದಾ",
   "niruthalama", "niruthalaama", "nirutha", "band kar", "chhod", "chod du", "kam kar", "badha", "aapeya", "nirthanam",
+  "dejar de tomar", "dejo de tomar", "parar de tomar", "suspender", "saltar", "reducir", "aumentar", "bajar la dosis", "subir la dosis", "doble dosis", "dos pastillas", "tomar menos", "tomar más", "tomar mas", "no tomar", "cambiar",
 ];
 
 function norm(s: string) {
